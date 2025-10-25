@@ -9,7 +9,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <assert.h>
 
 int max(int x, int y){
     if(x >= y)
@@ -38,6 +37,21 @@ int mod(int x){
     else
         return r;
 }
+bool are_congruent_mod_q(int x, int y){
+    if(mod(x) == mod(y))
+        return 1;
+    else
+        return 0;
+}
+//funkcja wprowadza przyjęty porządek
+bool compare(int x, int y){ //czy x mniejszy od y według przyjętego porządku
+    if(mod(x) < mod(y))
+        return 1;
+    if(mod(x) > mod(y))
+        return 0;
+    //x mod Q == y mod Q
+    return (x < y);
+}
 
 zbior_ary ciag_arytmetyczny(int a, int q, int b){
     if(is_q_set == false){
@@ -46,7 +60,6 @@ zbior_ary ciag_arytmetyczny(int a, int q, int b){
 
     zbior_ary result;
     result.number_of_diff_seq = 1;
-    result.allocated_space = 1;
 
     //kontrukcja tablic
     result.min_element = create_table(result.number_of_diff_seq);
@@ -63,12 +76,21 @@ zbior_ary singleton(int a){
     return ciag_arytmetyczny(a, -1, a);
 }
 
+//funckja zmniejsza zuzycie pamieci do ilosci faktycznych elementow
+zbior_ary reduce_memory(zbior_ary X){
+    zbior_ary result;
+    result.number_of_diff_seq = X.number_of_diff_seq;
+    result.min_element = create_table(result.number_of_diff_seq);
+    result.max_element = create_table(result.number_of_diff_seq);
 
-bool are_congruent_mod_q(int x, int y){
-    if(mod(x) == mod(y))
-        return 1;
-    else
-        return 0;
+    for(int i = 0; i < result.number_of_diff_seq; i++){
+        result.min_element[i] = X.min_element[i];
+        result.max_element[i] = X.max_element[i];
+    }
+    free(X.min_element);
+    free(X.max_element);
+
+    return result;
 }
 
 //funkcja dodaje element na koniec tablicy ciągow i łączy z przedostatnim ciągu
@@ -76,7 +98,6 @@ bool are_congruent_mod_q(int x, int y){
 //uwaga, X musi mieć odpowiednio duzą tablice
 void push_back(zbior_ary* X, int a, int b){
     if(X->number_of_diff_seq == 0){
-        assert(X->allocated_space > 0);
         X->min_element[0] = a;
         X->max_element[0] = b;
         X->number_of_diff_seq++;
@@ -90,20 +111,10 @@ void push_back(zbior_ary* X, int a, int b){
         X->max_element[n - 1] = max(X_last_el, b);
     }
     else {
-        assert(X->allocated_space > n);
         X->min_element[n] = a;
         X->max_element[n] = b;
         X->number_of_diff_seq++;
     }
-}
-
-bool compare(int x, int y){ //czy x mniejszy od y według przyjętego porządku
-    if(mod(x) < mod(y))
-        return 1;
-    if(mod(x) > mod(y))
-        return 0;
-    //x mod Q == y mod Q
-    return (x < y);
 }
 
 zbior_ary suma(zbior_ary A, zbior_ary B){
@@ -125,7 +136,6 @@ zbior_ary suma(zbior_ary A, zbior_ary B){
     zbior_ary result;
     result.min_element = create_table(n + m);
     result.max_element = create_table(n + m);
-    result.allocated_space = n + m;
 
     int index_a = 0;
     int index_b = 0;
@@ -158,7 +168,7 @@ zbior_ary suma(zbior_ary A, zbior_ary B){
         }
     }
 
-    return result;
+    return reduce_memory(result);
 }
 
 //funkcja usuwa ciąg (a, b) z końca zbioru ciągow X
@@ -188,10 +198,12 @@ zbior_ary roznica(zbior_ary A, zbior_ary B){
     int indexB = 0;
 
     zbior_ary result;
+    //kazdy element zbioru B moze dodać maksymalnie 1 element do zbioru A
+    //(poprzez rozbicie elementu z A na dwa)
+    //stąd maksymalna pamięć (n + m)
     result.min_element = create_table(n + m);
     result.max_element = create_table(n + m);
     result.number_of_diff_seq = 0;
-    result.allocated_space = n + m;
 
     while(indexA < n || indexB < m){
         if(indexA < n){
@@ -215,7 +227,7 @@ zbior_ary roznica(zbior_ary A, zbior_ary B){
         }
     }
 
-    return result;
+    return reduce_memory(result);
 }
 zbior_ary iloczyn(zbior_ary A, zbior_ary B) {
     zbior_ary result = suma(A, B);
@@ -227,13 +239,16 @@ zbior_ary iloczyn(zbior_ary A, zbior_ary B) {
 
     //mozna po prostu A - (A - B)
 
-    return result;
+    return reduce_memory(result);
 }
 
 unsigned moc(zbior_ary A){
     long long result = 0;
+    long long maxi, mini, Qll = Q;
     for(int i = 0; i < A.number_of_diff_seq; i++){
-        result += (long long)(A.max_element[i] - A.min_element[i]) / Q + 1ll;
+        maxi = A.max_element[i];
+        mini = A.min_element[i];
+        result += (maxi - mini) / Qll + 1ll;
     }
     return (unsigned int)result;
 }

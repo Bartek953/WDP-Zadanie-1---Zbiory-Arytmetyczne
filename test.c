@@ -67,7 +67,7 @@ int main(void){
             }
             case '|': {
                 scanf(" %c", &lvalue);
-                printf("%d\n", moc(tab[(int)lvalue]));
+                printf("%u\n", moc(tab[(int)lvalue]));
                 break;
             }
             case ':': {
