@@ -30,12 +30,6 @@ int main(void){
                 Q = q;
 
                 tab[(int)lvalue] = ciag_arytmetyczny(a, q, b);
-                /*if(a == b){ //singleton
-                    tab[(int)lvalue] = singleton(a);
-                }
-                else {
-                    tab[(int)lvalue] = ciag_arytmetyczny(a, q, b);
-                }*/
                 break;
             }
             case '+': {
@@ -51,8 +45,8 @@ int main(void){
                     break;
                 }
                 for(int seq_index = 0; seq_index < tab[(int)lvalue].number_of_diff_seq; seq_index++){
-                    int el = tab[(int)lvalue].first_element[seq_index];
-                    while(el <= tab[(int)lvalue].last_element[seq_index]){
+                    int el = tab[(int)lvalue].min_element[seq_index];
+                    while(el <= tab[(int)lvalue].max_element[seq_index]){
                         printf("%d ", el);
                         el += Q;
                     }

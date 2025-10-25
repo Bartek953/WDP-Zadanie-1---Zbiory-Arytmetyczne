@@ -5,11 +5,14 @@
 
 typedef struct zbior_ary {
   //skoro kazdy ciąg będzie sumą ciagow arytmetycznych o stałej roznicy
-  //to wystarczy pamietac pierwszy i ostatni element kazdego z nich
+  //to wystarczy pamietac najmniejszy i najwiekszy element kazdego z nich
   
-  int* first_element; //tablica pierwszych elementow
-  int* last_element; //tablica ostatnich elementow
-  int number_of_diff_seq;
+
+  int* min_element; //tablica najmniejszych elementow
+  int* max_element; //tablica najwiekszych elementow
+  //i-ty element tablic t ciąg arytmetyczny od min_element[i] do max_element[i], o roznicy Q
+
+  int number_of_diff_seq; //liczba roznych ciagow arytmetycznych w zbiorze
   int allocated_space;
 
   //dodatkowo mozemy chciec utrzymywac posortowanie tablic wedlug modulo q, a potem po pierwszym elemencie
@@ -34,8 +37,8 @@ zbior_ary iloczyn(zbior_ary A, zbior_ary B);
 // Daje w wyniku zbior A \ B.
 zbior_ary roznica(zbior_ary A, zbior_ary B);
 
-// Daje w wyniku true wtw. gdy liczba b nalezy do zbioru A.
 bool nalezy(zbior_ary A, int b);
+// Daje w wyniku true wtw. gdy liczba b nalezy do zbioru A.
 
 // Wynikiem funkcji jest liczba elementow w zbiorze A.
 unsigned moc(zbior_ary A);

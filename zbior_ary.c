@@ -1,22 +1,15 @@
-//reprezentacja ciagu jako sumy ciagow teoriomnogosciowych (el poczatkowy i q)
-//stale q!
-//zmienic unsigned na long longa
-
-//!!!!!
-//q w danym tescie jest stale na caly test - wszystkie ciag_arytmetyczny() beda uzywac tego samego q!
-//!!!!!
-
-//modulo q?
-
-//uwaga na inty, unsigned i long longi
+//skoro Q jest stałe, to pojedynczy ciąg arytmetyczny będę reprezentował jako najmniejszy i największy element
+//zbior to suma ciagow
+//bedzie przechowywany jako tablica najmniejszych i najwiekszych elementow ciagu
+//ciagi w tablicy w zbiorze są posortowane najpierw po reszcie z dzielenia przez Q,
+//a potem po najmniejszym elemencie
+//takie sortowanie będę dalej nazywał przyjętym porządkiem
 
 #include "zbior_ary.h"
 
-//#include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-//#include <math.h>
 
 int max(int x, int y){
     if(x >= y)
@@ -29,7 +22,7 @@ int* create_table(int size){
 }
 
 int Q; //roznica ciągu
-int is_q_set = 0; //bool
+bool is_q_set = 0;
 
 //funkcja do testow
 void set_new_q(int q){
@@ -47,7 +40,7 @@ int mod(int x){
 }
 
 zbior_ary ciag_arytmetyczny(int a, int q, int b){
-    if(is_q_set == 0){
+    if(is_q_set == false){
         set_new_q(q);
     }
 
@@ -56,27 +49,22 @@ zbior_ary ciag_arytmetyczny(int a, int q, int b){
     result.allocated_space = 1;
 
     //kontrukcja tablic
-    result.first_element = create_table(result.number_of_diff_seq);
-    result.last_element = create_table(result.number_of_diff_seq);
+    result.min_element = create_table(result.number_of_diff_seq);
+    result.max_element = create_table(result.number_of_diff_seq);
 
-    result.first_element[0] = a;
-    result.last_element[0] = b;
+    result.min_element[0] = a;
+    result.max_element[0] = b;
 
     return result;
 }
 
 zbior_ary singleton(int a){
-    //singleton to sczczegolny przypadek ciagu arytmetycznego,
-    //gdzie pierwszy element jest rowny ostatniemu
-
-    //singleton bedziemy oznaczac jako zbior arytmetyczny z q=-1
-
+    //singleton to ciąg arytmetyczny o jednym elemencie
     return ciag_arytmetyczny(a, -1, a);
 }
 
 
-//zwraca bool
-int are_congruent_mod_q(int x, int y){
+bool are_congruent_mod_q(int x, int y){
     if(mod(x) == mod(y))
         return 1;
     else
@@ -89,27 +77,27 @@ int are_congruent_mod_q(int x, int y){
 void push_back(zbior_ary* X, int a, int b){
     if(X->number_of_diff_seq == 0){
         assert(X->allocated_space > 0);
-        X->first_element[0] = a;
-        X->last_element[0] = b;
+        X->min_element[0] = a;
+        X->max_element[0] = b;
         X->number_of_diff_seq++;
         return;
     }
 
     int n = X->number_of_diff_seq;
-    int X_last_el = X->last_element[n - 1];
-    //wiemy, ze jesli przystaja mod Q, to X.first_element[n - 1] <= a, bo elementy sa posortowane
+    int X_last_el = X->max_element[n - 1];
+    //wiemy, ze jesli przystaja mod Q, to X.min_element[n - 1] <= a, bo elementy sa posortowane (według porządku)
     if(are_congruent_mod_q(X_last_el, a) && (a - X_last_el) <= Q){
-        X->last_element[n - 1] = max(X_last_el, b);
+        X->max_element[n - 1] = max(X_last_el, b);
     }
     else {
         assert(X->allocated_space > n);
-        X->first_element[n] = a;
-        X->last_element[n] = b;
+        X->min_element[n] = a;
+        X->max_element[n] = b;
         X->number_of_diff_seq++;
     }
 }
 
-int compare(int x, int y){ //czy x mniejszy od y - zwraca bool
+bool compare(int x, int y){ //czy x mniejszy od y według przyjętego porządku
     if(mod(x) < mod(y))
         return 1;
     if(mod(x) > mod(y))
@@ -135,8 +123,8 @@ zbior_ary suma(zbior_ary A, zbior_ary B){
     int m = B.number_of_diff_seq;
 
     zbior_ary result;
-    result.first_element = create_table(n + m);
-    result.last_element = create_table(n + m);
+    result.min_element = create_table(n + m);
+    result.max_element = create_table(n + m);
     result.allocated_space = n + m;
 
     int index_a = 0;
@@ -146,63 +134,51 @@ zbior_ary suma(zbior_ary A, zbior_ary B){
     while(index_a < n || index_b < m){
         if(index_a == n){
             //bierzemy element z B (jest mniejszy)
-            push_back(&result, B.first_element[index_b], B.last_element[index_b]);
+            push_back(&result, B.min_element[index_b], B.max_element[index_b]);
             index_b++;
             continue;
         }
         if(index_b == m){
             //bierzemy element z A (jest mniejszy)
-            push_back(&result, A.first_element[index_a], A.last_element[index_a]);
+            push_back(&result, A.min_element[index_a], A.max_element[index_a]);
             index_a++;
             continue;
         }
-        if(compare(B.first_element[index_b], A.first_element[index_a])){
+        if(compare(B.min_element[index_b], A.min_element[index_a])){
             //bierzemy element z B (jest mniejszy)
-            push_back(&result, B.first_element[index_b], B.last_element[index_b]);
+            push_back(&result, B.min_element[index_b], B.max_element[index_b]);
             index_b++;
             continue;
         }
         else {
             //bierzemy element z A (jest mniejszy)
-            push_back(&result, A.first_element[index_a], A.last_element[index_a]);
+            push_back(&result, A.min_element[index_a], A.max_element[index_a]);
             index_a++;
             continue;
         }
-        //...
     }
 
     return result;
 }
 
+//funkcja usuwa ciąg (a, b) z końca zbioru ciągow X
 void pop_back(zbior_ary* X, int a, int b){
     if(X->number_of_diff_seq == 0)
         return;
     int n = X->number_of_diff_seq;
-    int X_last_low = X->first_element[n - 1];
-    int X_last_high = X->last_element[n - 1];
+    int X_last_min = X->min_element[n - 1];
+    int X_last_max = X->max_element[n - 1];
 
-    if(are_congruent_mod_q(X_last_low, a) == 0 || b < X_last_low || X_last_high < a)
+    if(are_congruent_mod_q(X_last_min, a) == false || b < X_last_min || X_last_max < a)
         return;
 
     X->number_of_diff_seq--;
-    if(X_last_low < a){
-        push_back(X, X_last_low, a-Q);
+    if(X_last_min < a){
+        push_back(X, X_last_min, a-Q);
     }
-    if(b < X_last_high){
-        push_back(X, b+Q, X_last_high);
+    if(b < X_last_max){
+        push_back(X, b+Q, X_last_max);
     }
-}
-
-void printSet(zbior_ary X){
-    for(int i = 0; i < X.number_of_diff_seq; i++){
-        int el = X.first_element[i];
-        while(el <= X.last_element[i]){
-            printf("%d ", el);
-            el += Q;
-        }
-        printf(" : ");
-    }
-    printf("\nRoznych:%d\n", X.number_of_diff_seq);
 }
 
 zbior_ary roznica(zbior_ary A, zbior_ary B){
@@ -212,28 +188,28 @@ zbior_ary roznica(zbior_ary A, zbior_ary B){
     int indexB = 0;
 
     zbior_ary result;
-    result.first_element = create_table(n + m);
-    result.last_element = create_table(n + m);
+    result.min_element = create_table(n + m);
+    result.max_element = create_table(n + m);
     result.number_of_diff_seq = 0;
     result.allocated_space = n + m;
 
     while(indexA < n || indexB < m){
         if(indexA < n){
-            push_back(&result, A.first_element[indexA], A.last_element[indexA]);
+            push_back(&result, A.min_element[indexA], A.max_element[indexA]);
             indexA++;
         }
         if(indexB < m){
-            pop_back(&result, B.first_element[indexB], B.last_element[indexB]);
+            pop_back(&result, B.min_element[indexB], B.max_element[indexB]);
         }
-        while(indexB < m && result.number_of_diff_seq >= 1 && compare(B.last_element[indexB], result.first_element[result.number_of_diff_seq - 1])){
+        while(indexB < m && result.number_of_diff_seq >= 1 && compare(B.max_element[indexB], result.min_element[result.number_of_diff_seq - 1])){
             indexB++;
             if(indexB < m){
-                pop_back(&result, B.first_element[indexB], B.last_element[indexB]);
+                pop_back(&result, B.min_element[indexB], B.max_element[indexB]);
             }
         }
         if(indexA == n){
             while(indexB < m){
-                pop_back(&result, B.first_element[indexB], B.last_element[indexB]);
+                pop_back(&result, B.min_element[indexB], B.max_element[indexB]);
                 indexB++;
             }
         }
@@ -257,7 +233,7 @@ zbior_ary iloczyn(zbior_ary A, zbior_ary B) {
 unsigned moc(zbior_ary A){
     long long result = 0;
     for(int i = 0; i < A.number_of_diff_seq; i++){
-        result += (long long)(A.last_element[i] - A.first_element[i]) / Q + 1ll;
+        result += (long long)(A.max_element[i] - A.min_element[i]) / Q + 1ll;
     }
     return (unsigned int)result;
 }
@@ -267,7 +243,9 @@ unsigned ary(zbior_ary A){
 
 bool nalezy(zbior_ary A, int b){
     //jesli b nalezy do A, to b nalezy do ktoregos z ciagow arytmetycznych A
-    //bin search
+    //bin search po indeksie ciągu do ktorego nalezy b
+    //mozemy to zrobić, bo ciągi są posortowane weług porządku
+
     if(moc(A) == 0)
         return false;
     int l = -1;
@@ -276,7 +254,7 @@ bool nalezy(zbior_ary A, int b){
 
     while(l + 1 < r){
         mid = (l + r) / 2;
-        if(compare(b, A.first_element[mid])) //czy b jest mniejsze od ciagu mid
+        if(compare(b, A.min_element[mid])) //czy b jest mniejsze od ciagu mid
             r = mid;
         else
             l = mid;
@@ -284,8 +262,8 @@ bool nalezy(zbior_ary A, int b){
     if(l < 0)
         return false;
 
-    int low_el = A.first_element[l];
-    int high_el = A.last_element[l];
+    int low_el = A.min_element[l];
+    int high_el = A.max_element[l];
     if(are_congruent_mod_q(b, low_el) && low_el <= b && b <= high_el)
         return true;
     else
