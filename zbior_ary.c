@@ -9,6 +9,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 
 int max(int x, int y){
     if(x >= y){
@@ -67,8 +68,9 @@ zbior_ary ciag_arytmetyczny(int a, int q, int b){
 
     zbior_ary result;
     result.number_of_diff_seq = 1;
+    result.allocated_space = 1;
 
-    //kontrukcja tablic
+    //konstrukcja tablic
     result.min_element = create_table(result.number_of_diff_seq);
     result.max_element = create_table(result.number_of_diff_seq);
 
@@ -110,11 +112,12 @@ void reduce_memory(zbior_ary* X){
     (*X) = result;
 }
 
-//funkcja dodaje element na koniec tablicy ciągow i łączy z przedostatnim ciągu
+//funkcja dodaje element na koniec tablicy ciągow i łączy z przedostatnim ciągiem
 //X - zbior, a - pierwszy element dodawanego ciągu, b - ostatni element dodawanego ciągu
 //uwaga, X musi mieć odpowiednio duzą tablice
 void push_back(zbior_ary* X, int a, int b){
     if(X->number_of_diff_seq == 0){
+        assert(X->allocated_space > 0);
         X->min_element[0] = a;
         X->max_element[0] = b;
         X->number_of_diff_seq++;
@@ -136,6 +139,15 @@ void push_back(zbior_ary* X, int a, int b){
     }
 }
 
+bool compare(int x, int y){ //czy x mniejszy od y według przyjętego porządku
+    if(mod(x) < mod(y))
+        return 1;
+    if(mod(x) > mod(y))
+        return 0;
+    //x mod Q == y mod Q
+    return (x < y);
+}
+
 zbior_ary suma(zbior_ary A, zbior_ary B){
     //dane są pary (a, q, b), (c, q, d)
     //zauwazmy, ze a(mod q) = b(mod q)
@@ -155,6 +167,7 @@ zbior_ary suma(zbior_ary A, zbior_ary B){
     zbior_ary result;
     result.min_element = create_table(n + m);
     result.max_element = create_table(n + m);
+    result.allocated_space = n + m;
 
     int index_a = 0;
     int index_b = 0;
@@ -210,6 +223,8 @@ void pop_back(zbior_ary* X, int a, int b){
         return;
     }
 
+    //odejmuje najpierw cały ostatni ciąg z X
+    //a potem dodaje te części, ktore nie zostały usunięte
     X->number_of_diff_seq--;
     //usuwam ostatni ciąg, a potem dodaje te jego części, ktore nie zostały usunięte
     if(X_last_min < a){
@@ -231,12 +246,10 @@ zbior_ary roznica(zbior_ary A, zbior_ary B){
     int indexB = 0;
 
     zbior_ary result;
-    //kazdy element zbioru B moze dodać maksymalnie 1 element do zbioru A
-    //(poprzez rozbicie elementu z A na dwa)
-    //stąd maksymalna pamięć (n + m)
     result.min_element = create_table(n + m);
     result.max_element = create_table(n + m);
     result.number_of_diff_seq = 0;
+    result.allocated_space = n + m;
 
     //będę dodawał elementy z A, a potem "wykrawał" z ncih elementy z B
     //korzystam przy tym, ze elementy w A i B są posortowane według przyjętego porządku
@@ -294,9 +307,7 @@ unsigned moc(zbior_ary A){
     long long maxi, mini, Qll = Q;
 
     for(int i = 0; i < A.number_of_diff_seq; i++){
-        maxi = A.max_element[i];
-        mini = A.min_element[i];
-        result += (maxi - mini) / Qll + 1ll;
+        result += (long long)(A.max_element[i] - A.min_element[i]) / Q + 1ll;
     }
     return (unsigned int)result;
 }
