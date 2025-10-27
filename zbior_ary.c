@@ -9,6 +9,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 
 int max(int x, int y){
     if(x >= y){
@@ -48,18 +49,6 @@ int mod(int x){
         return r;
     }
 }
-bool are_congruent_mod_q(int x, int y){
-    return mod(x) == mod(y);
-}
-//funkcja wprowadza przyjęty porządek
-bool less_in_order(int x, int y){ //czy x mniejszy od y według przyjętego porządku
-    if(mod(x) == mod(y)){
-        return x < y;
-    }
-    else {
-        return mod(x) < mod(y);
-    }
-}
 
 zbior_ary ciag_arytmetyczny(int a, int q, int b){
     if(is_q_set == false){
@@ -68,6 +57,7 @@ zbior_ary ciag_arytmetyczny(int a, int q, int b){
 
     zbior_ary result;
     result.number_of_diff_seq = 1;
+    result.allocated_space = 1;
 
     //konstrukcja tablic
     result.min_element = create_table(result.number_of_diff_seq);
@@ -84,17 +74,12 @@ zbior_ary singleton(int a){
     return ciag_arytmetyczny(a, -1, a);
 }
 
-zbior_ary copy_set(zbior_ary X){
-    zbior_ary result;
-    result.number_of_diff_seq = X.number_of_diff_seq;
-    result.min_element = create_table(result.number_of_diff_seq);
-    result.max_element = create_table(result.number_of_diff_seq);
 
-    for(int i = 0; i < result.number_of_diff_seq; i++){
-        result.min_element[i] = X.min_element[i];
-        result.max_element[i] = X.max_element[i];
-    }
-    return result;
+bool are_congruent_mod_q(int x, int y){
+    if(mod(x) == mod(y))
+        return 1;
+    else
+        return 0;
 }
 
 void delete_set(zbior_ary* X){
@@ -116,6 +101,7 @@ void reduce_memory(zbior_ary* X){
 //uwaga, X musi mieć odpowiednio duzą tablice
 void push_back(zbior_ary* X, int a, int b){
     if(X->number_of_diff_seq == 0){
+        assert(X->allocated_space > 0);
         X->min_element[0] = a;
         X->max_element[0] = b;
         X->number_of_diff_seq++;
@@ -130,11 +116,20 @@ void push_back(zbior_ary* X, int a, int b){
         X->max_element[n - 1] = max(X_last_el, b);
     }
     else {
-        //nie mozna połączyć ciągow
+        assert(X->allocated_space > n);
         X->min_element[n] = a;
         X->max_element[n] = b;
         X->number_of_diff_seq++;
     }
+}
+
+bool compare(int x, int y){ //czy x mniejszy od y według przyjętego porządku
+    if(mod(x) < mod(y))
+        return 1;
+    if(mod(x) > mod(y))
+        return 0;
+    //x mod Q == y mod Q
+    return (x < y);
 }
 
 zbior_ary suma(zbior_ary A, zbior_ary B){
@@ -156,6 +151,7 @@ zbior_ary suma(zbior_ary A, zbior_ary B){
     zbior_ary result;
     result.min_element = create_table(n + m);
     result.max_element = create_table(n + m);
+    result.allocated_space = n + m;
 
     int index_a = 0;
     int index_b = 0;
@@ -189,7 +185,6 @@ zbior_ary suma(zbior_ary A, zbior_ary B){
         }
     }
 
-    reduce_memory(&result);
     return result;
 }
 
@@ -225,12 +220,10 @@ zbior_ary roznica(zbior_ary A, zbior_ary B){
     int indexB = 0;
 
     zbior_ary result;
-    //kazdy element zbioru B moze dodać maksymalnie 1 element do zbioru A
-    //(poprzez rozbicie elementu z A na dwa)
-    //stąd maksymalna pamięć (n + m)
     result.min_element = create_table(n + m);
     result.max_element = create_table(n + m);
     result.number_of_diff_seq = 0;
+    result.allocated_space = n + m;
 
     while(indexA < n || indexB < m){
         if(indexA < n){
@@ -263,7 +256,6 @@ zbior_ary roznica(zbior_ary A, zbior_ary B){
         }
     }
 
-    reduce_memory(&result);
     return result;
 }
 zbior_ary iloczyn(zbior_ary A, zbior_ary B) {
@@ -272,17 +264,15 @@ zbior_ary iloczyn(zbior_ary A, zbior_ary B) {
     zbior_ary result = roznica(A, diffAB);
     delete_set(&diffAB);
 
+    //mozna po prostu A - (A - B)
+
     return result;
-    //result pochodzi z funkcji roznica, ma więc juz zredukowaną pamięć
 }
 
 unsigned moc(zbior_ary A){
     long long result = 0;
-    long long maxi, mini, Qll = Q;
     for(int i = 0; i < A.number_of_diff_seq; i++){
-        maxi = A.max_element[i];
-        mini = A.min_element[i];
-        result += (maxi - mini) / Qll + 1ll;
+        result += (long long)(A.max_element[i] - A.min_element[i]) / Q + 1ll;
     }
     return (unsigned int)result;
 }
