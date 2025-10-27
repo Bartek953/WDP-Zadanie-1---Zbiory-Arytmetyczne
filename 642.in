@@ -1,0 +1,1078 @@
+1077
+= A 840 2 1056
+? A
+| A
+= B 972 2 1296
+? B
+| B
+= C -973 2 -317
+? C
+| C
+= D -608 2 -50
+? D
+| D
+= E 842 2 1412
+? E
+| E
+= F 696 2 1358
+? F
+| F
+= G 808 2 1522
+? G
+| G
+= H 218 2 352
+? H
+| H
+= I -570 2 -300
+? I
+| I
+= J 794 2 860
+? J
+| J
+= K 231 2 979
+? K
+| K
+= L -940 2 -218
+? L
+| L
+= M 14 2 334
+? M
+| M
+= N 24 2 236
+? N
+| N
+= O -873 2 -171
+? O
+| O
+= P -483 2 -403
+? P
+| P
+= Q 400 2 852
+? Q
+| Q
+= R -955 2 -953
+? R
+| R
+= S -671 2 -241
+? S
+| S
+= T -197 2 255
+? T
+| T
+= U -900 2 -132
+? U
+| U
+= V 979 2 1627
+? V
+| V
+= W 280 2 992
+? W
+| W
+- R E E
+? R
+| R
+@ R
+: S 800
+? S
+| S
+@ S
+* K W P
+? K
+| K
+@ K
+: R -99
+? R
+| R
+@ R
+: Q 844
+? Q
+| Q
+@ Q
++ B M A
+? B
+| B
+@ B
+- E G M
+? E
+| E
+@ E
++ R D N
+? R
+| R
+@ R
++ R Q Q
+? R
+| R
+@ R
+: T 914
+? T
+| T
+@ T
+* A O F
+? A
+| A
+@ A
+- B F J
+? B
+| B
+@ B
+: K 29
+? K
+| K
+@ K
+: G -326
+? G
+| G
+@ G
+: R 954
+? R
+| R
+@ R
+: A 7581
+? A
+| A
+@ A
++ R B K
+? R
+| R
+@ R
+: S 39
+? S
+| S
+@ S
+: G -91
+? G
+| G
+@ G
+* P R H
+? P
+| P
+@ P
++ V O V
+? V
+| V
+@ V
+* B W D
+? B
+| B
+@ B
+* E J A
+? E
+| E
+@ E
+: Q -66
+? Q
+| Q
+@ Q
+: O 42
+? O
+| O
+@ O
+: L -27
+? L
+| L
+@ L
+: H -3297
+? H
+| H
+@ H
+* Q J F
+? Q
+| Q
+@ Q
+: I 86
+? I
+| I
+@ I
+: P -39
+? P
+| P
+@ P
+* J V V
+? J
+| J
+@ J
+* D V Q
+? D
+| D
+@ D
+: E -880
+? E
+| E
+@ E
++ F D O
+? F
+| F
+@ F
+* Q V B
+? Q
+| Q
+@ Q
+: H 48
+? H
+| H
+@ H
+- I R S
+? I
+| I
+@ I
+: V 75
+? V
+| V
+@ V
+: G 1091
+? G
+| G
+@ G
+: R 780
+? R
+| R
+@ R
++ L B I
+? L
+| L
+@ L
+: G 494
+? G
+| G
+@ G
++ U G V
+? U
+| U
+@ U
+* H N F
+? H
+| H
+@ H
++ P A W
+? P
+| P
+@ P
++ J W K
+? J
+| J
+@ J
+: N -7252
+? N
+| N
+@ N
+: H 71
+? H
+| H
+@ H
+: N -4560
+? N
+| N
+@ N
+: I 57
+? I
+| I
+@ I
+* W S K
+? W
+| W
+@ W
+* M J P
+? M
+| M
+@ M
+: D -4171
+? D
+| D
+@ D
+: H -609
+? H
+| H
+@ H
+: M -9495
+? M
+| M
+@ M
+- L V J
+? L
+| L
+@ L
+: W -8736
+? W
+| W
+@ W
+: W -4119
+? W
+| W
+@ W
+: K -2080
+? K
+| K
+@ K
+- P U P
+? P
+| P
+@ P
+- T S U
+? T
+| T
+@ T
+: C -6586
+? C
+| C
+@ C
+: O -7571
+? O
+| O
+@ O
++ V C R
+? V
+| V
+@ V
++ Q J I
+? Q
+| Q
+@ Q
++ A Q A
+? A
+| A
+@ A
+: O 644
+? O
+| O
+@ O
+: V -168
+? V
+| V
+@ V
+: C -51
+? C
+| C
+@ C
+* E J Q
+? E
+| E
+@ E
++ F E A
+? F
+| F
+@ F
+: I 8524
+? I
+| I
+@ I
+: J 27
+? J
+| J
+@ J
+: F -864
+? F
+| F
+@ F
++ M I D
+? M
+| M
+@ M
+: M 43
+? M
+| M
+@ M
+* B J P
+? B
+| B
+@ B
+: H 43
+? H
+| H
+@ H
+* G H B
+? G
+| G
+@ G
+: B -7612
+? B
+| B
+@ B
+: H 9757
+? H
+| H
+@ H
+: F -5118
+? F
+| F
+@ F
+- V S G
+? V
+| V
+@ V
+: V 7479
+? V
+| V
+@ V
+* B A A
+? B
+| B
+@ B
+- G O Q
+? G
+| G
+@ G
+: B 7354
+? B
+| B
+@ B
+* K G W
+? K
+| K
+@ K
++ N J B
+? N
+| N
+@ N
+* F M S
+? F
+| F
+@ F
+- C J A
+? C
+| C
+@ C
++ C I F
+? C
+| C
+@ C
++ R P J
+? R
+| R
+@ R
+- C R K
+? C
+| C
+@ C
+- E C Q
+? E
+| E
+@ E
+- W D W
+? W
+| W
+@ W
+* J I Q
+? J
+| J
+@ J
+: V -95
+? V
+| V
+@ V
+- N D S
+? N
+| N
+@ N
+- E S F
+? E
+| E
+@ E
++ E E R
+? E
+| E
+@ E
++ Q D G
+? Q
+| Q
+@ Q
+: I 111
+? I
+| I
+@ I
+* T I L
+? T
+| T
+@ T
+: Q -9069
+? Q
+| Q
+@ Q
+- M D N
+? M
+| M
+@ M
++ U N U
+? U
+| U
+@ U
+: O -8699
+? O
+| O
+@ O
++ B D T
+? B
+| B
+@ B
+: M -23
+? M
+| M
+@ M
++ J B E
+? J
+| J
+@ J
+- Q C P
+? Q
+| Q
+@ Q
+: A -40
+? A
+| A
+@ A
+* V T D
+? V
+| V
+@ V
++ L K I
+? L
+| L
+@ L
+* P D W
+? P
+| P
+@ P
+: L -514
+? L
+| L
+@ L
+: D 4720
+? D
+| D
+@ D
+* W J I
+? W
+| W
+@ W
+- E V U
+? E
+| E
+@ E
+- D Q A
+? D
+| D
+@ D
+: C 57
+? C
+| C
+@ C
++ E E F
+? E
+| E
+@ E
+: V 3021
+? V
+| V
+@ V
+: P 70
+? P
+| P
+@ P
+: I -85
+? I
+| I
+@ I
+: A 244
+? A
+| A
+@ A
+* F F W
+? F
+| F
+@ F
++ W F W
+? W
+| W
+@ W
+- D U P
+? D
+| D
+@ D
+: V -90
+? V
+| V
+@ V
+- I W O
+? I
+| I
+@ I
+: U 7010
+? U
+| U
+@ U
+- V M W
+? V
+| V
+@ V
+: T -61
+? T
+| T
+@ T
+: P -72
+? P
+| P
+@ P
+: D 559
+? D
+| D
+@ D
+* N V J
+? N
+| N
+@ N
+- U D K
+? U
+| U
+@ U
+- W H A
+? W
+| W
+@ W
+: P -6118
+? P
+| P
+@ P
+: D 653
+? D
+| D
+@ D
+: V -89
+? V
+| V
+@ V
+: P -10
+? P
+| P
+@ P
+: O -93
+? O
+| O
+@ O
+: I 72
+? I
+| I
+@ I
++ W K O
+? W
+| W
+@ W
+: S -57
+? S
+| S
+@ S
+- O A C
+? O
+| O
+@ O
++ D A T
+? D
+| D
+@ D
+: H 5706
+? H
+| H
+@ H
+- T O I
+? T
+| T
+@ T
+: Q 144
+? Q
+| Q
+@ Q
+* O L K
+? O
+| O
+@ O
+: M -3112
+? M
+| M
+@ M
+* Q R V
+? Q
+| Q
+@ Q
+: E -29
+? E
+| E
+@ E
+- N H B
+? N
+| N
+@ N
++ W L H
+? W
+| W
+@ W
+* H O D
+? H
+| H
+@ H
+- O W D
+? O
+| O
+@ O
+: I 220
+? I
+| I
+@ I
+- C G A
+? C
+| C
+@ C
+: U -2740
+? U
+| U
+@ U
+- E T C
+? E
+| E
+@ E
+- F Q T
+? F
+| F
+@ F
+: A -596
+? A
+| A
+@ A
+- B H U
+? B
+| B
+@ B
+: F 7549
+? F
+| F
+@ F
+- Q F M
+? Q
+| Q
+@ Q
+: I -912
+? I
+| I
+@ I
+: V 321
+? V
+| V
+@ V
+: E -799
+? E
+| E
+@ E
+- F P Q
+? F
+| F
+@ F
++ N U C
+? N
+| N
+@ N
+: I -63
+? I
+| I
+@ I
+: A 804
+? A
+| A
+@ A
+* S B T
+? S
+| S
+@ S
+: D -742
+? D
+| D
+@ D
+: W 5748
+? W
+| W
+@ W
+* N A V
+? N
+| N
+@ N
+: D -2
+? D
+| D
+@ D
+: N -770
+? N
+| N
+@ N
+: L -456
+? L
+| L
+@ L
++ J J D
+? J
+| J
+@ J
+: E -654
+? E
+| E
+@ E
+: D 932
+? D
+| D
+@ D
+* F S A
+? F
+| F
+@ F
+* D V H
+? D
+| D
+@ D
+- P J V
+? P
+| P
+@ P
+: D -4
+? D
+| D
+@ D
+* J I Q
+? J
+| J
+@ J
+- S F A
+? S
+| S
+@ S
+: L 135
+? L
+| L
+@ L
+* E C R
+? E
+| E
+@ E
+- O B F
+? O
+| O
+@ O
++ G J L
+? G
+| G
+@ G
++ S A D
+? S
+| S
+@ S
+- B C G
+? B
+| B
+@ B
+: E 42
+? E
+| E
+@ E
+: B 6846
+? B
+| B
+@ B
+: C -3586
+? C
+| C
+@ C
+: Q -6115
+? Q
+| Q
+@ Q
+- B J L
+? B
+| B
+@ B
+: C 35
+? C
+| C
+@ C
+* F M P
+? F
+| F
+@ F
+* T P N
+? T
+| T
+@ T
+: G 2913
+? G
+| G
+@ G
+: B 44
+? B
+| B
+@ B
+: K 399
+? K
+| K
+@ K
++ W L R
+? W
+| W
+@ W
++ D I J
+? D
+| D
+@ D
+- O V S
+? O
+| O
+@ O
+: C -24
+? C
+| C
+@ C
+: N -199
+? N
+| N
+@ N
+- D P F
+? D
+| D
+@ D
+: W 932
+? W
+| W
+@ W
+: E 1061
+? E
+| E
+@ E
+* H U L
+? H
+| H
+@ H
+: W 1008
+? W
+| W
+@ W
+: Q 566
+? Q
+| Q
+@ Q
+: B 8
+? B
+| B
+@ B
+: M 7
+? M
+| M
+@ M
+: A -639
+? A
+| A
+@ A
+: O 101
+? O
+| O
+@ O
+: O -3744
+? O
+| O
+@ O
+: R -863
+? R
+| R
+@ R
+: J 985
+? J
+| J
+@ J
+* H H D
+? H
+| H
+@ H
+: E 6
+? E
+| E
+@ E
++ S J O
+? S
+| S
+@ S
+* J K L
+? J
+| J
+@ J
+: K -560
+? K
+| K
+@ K
+- O O R
+? O
+| O
+@ O
+: L 6603
+? L
+| L
+@ L
+: O 7628
+? O
+| O
+@ O
+* R G A
+? R
+| R
+@ R
+: W -4039
+? W
+| W
+@ W
+: M -58
+? M
+| M
+@ M
+* J Q D
+? J
+| J
+@ J
+* M U U
+? M
+| M
+@ M
++ F E G
+? F
+| F
+@ F
+- K L M
+? K
+| K
+@ K
+* S A D
+? S
+| S
+@ S
+: G 53
+? G
+| G
+@ G
++ W H C
+? W
+| W
+@ W
+: K -3458
+? K
+| K
+@ K
+: L 4198
+? L
+| L
+@ L
+* J A U
+? J
+| J
+@ J
+: D 51
+? D
+| D
+@ D
+: E -405
+? E
+| E
+@ E
+- T E P
+? T
+| T
+@ T
