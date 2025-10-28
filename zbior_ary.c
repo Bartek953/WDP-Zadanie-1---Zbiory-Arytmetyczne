@@ -20,6 +20,7 @@ int max(int x, int y){
 }
 
 int* create_table(int size){
+    size++; //na wypadek gdyby size == 0
     int* result = (int*)malloc((size_t)size * sizeof(int));
     if(!result){
         printf("[MALLOC EREOR] couldn't allocate table\n");

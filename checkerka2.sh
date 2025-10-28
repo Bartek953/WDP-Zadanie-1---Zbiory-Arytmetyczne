@@ -4,9 +4,17 @@ g++ -std=c++20 gen.cpp -o gen
 
 for((i=12;i<=50000;i++))
 do
-    echo $i
+    echo "test $i"
     ./gen > testy2/in/$i.in
+    head -1 testy2/in/$i.in
+
     ./wzo < testy2/in/$i.in > testy2/wzo/$i.wzo
+    head -1 testy2/wzo/$i.wzo | cut -d ' ' -f1
+
     ./brute < testy2/in/$i.in > testy2/brute/$i.brute
+    head -1 testy2/brute/$i.brute | cut -d ' ' -f1
+
     diff -b testy2/wzo/$i.wzo testy2/brute/$i.brute || break
+    echo "OK"
+    echo ""
 done
