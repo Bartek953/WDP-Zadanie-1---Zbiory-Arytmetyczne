@@ -123,11 +123,11 @@ void push_back(zbior_ary* X, int a, int b){
     }
 
     int n = X->number_of_diff_seq;
-    int X_last_el = X->max_element[n - 1];
+    int X_last_max = X->max_element[n - 1];
     //wiemy, ze jesli przystaja mod Q, to X.min_element[n - 1] <= a, bo elementy sa posortowane (według porządku)
-    if(are_congruent_mod_q(X_last_el, a) && (a - X_last_el) <= Q){
+    if(are_congruent_mod_q(X_last_max, a) && (a - X_last_max) <= Q){
         //łączymy ciągi
-        X->max_element[n - 1] = max(X_last_el, b);
+        X->max_element[n - 1] = max(X_last_max, b);
     }
     else {
         //ciągi są rozłączne, nie mozna ich połączyć
@@ -165,30 +165,22 @@ zbior_ary suma(zbior_ary A, zbior_ary B){
     //inaczej: sortuje dwie posortowane tablice w jedną nową, łącząc ciągi jeśli mogę
     //sortowanie tyczy się przyjętego porządku
     while(index_a < n || index_b < m){
-        if(index_a == n){
-            //bierzemy element z B (jest mniejszy)
-            push_back(&result, B.min_element[index_b], B.max_element[index_b]);
-            index_b++;
-            continue;
-        }
+        bool take_from_a = false;
+        
         if(index_b == m){
-            //bierzemy element z A (jest mniejszy)
-            push_back(&result, A.min_element[index_a], A.max_element[index_a]);
-            index_a++;
-            continue;
+            take_from_a = true;
+        }
+        else if(index_a < n && less_in_order(A.min_element[index_a], B.min_element[index_b])){
+            take_from_a = true;
         }
 
-        if(less_in_order(B.min_element[index_b], A.min_element[index_a])){
-            //bierzemy element z B (jest mniejszy)
-            push_back(&result, B.min_element[index_b], B.max_element[index_b]);
-            index_b++;
-            continue;
-        }
-        else {
-            //bierzemy element z A (jest mniejszy)
+        if(take_from_a){
             push_back(&result, A.min_element[index_a], A.max_element[index_a]);
             index_a++;
-            continue;
+        }
+        else {
+            push_back(&result, B.min_element[index_b], B.max_element[index_b]);
+            index_b++;
         }
     }
 
