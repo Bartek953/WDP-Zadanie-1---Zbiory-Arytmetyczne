@@ -29,8 +29,8 @@ int* create_table(int size){
     return result;
 }
 
-int Q; //roznica ciągu
-bool is_q_set = 0;
+static int Q; //roznica ciągu
+static bool is_q_set = 0;
 
 //funkcja do testow
 void set_new_q(int q){
