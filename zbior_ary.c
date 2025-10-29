@@ -9,6 +9,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 
 int max(int x, int y){
     if(x >= y){
@@ -20,12 +21,23 @@ int max(int x, int y){
 }
 
 int* create_table(int size){
-    size++; //na wypadek gdyby size == 0
+    if(size <= 0){ //na wypadek gdyby size == 0
+        size = 1;
+    }
     int* result = (int*)malloc((size_t)size * sizeof(int));
     if(!result){
         printf("[MALLOC EREOR] couldn't allocate table\n");
         exit(EXIT_FAILURE);
     }
+    return result;
+}
+zbior_ary create_set(int size){
+    zbior_ary result;
+
+    result.allocated_space = size;
+    result.min_element = create_table(size);
+    result.max_element = create_table(size);
+
     return result;
 }
 
@@ -66,13 +78,9 @@ zbior_ary ciag_arytmetyczny(int a, int q, int b){
         set_new_q(q);
     }
 
-    zbior_ary result;
+    zbior_ary result = create_set(1);
+
     result.number_of_diff_seq = 1;
-
-    //kontrukcja tablic
-    result.min_element = create_table(result.number_of_diff_seq);
-    result.max_element = create_table(result.number_of_diff_seq);
-
     result.min_element[0] = a;
     result.max_element[0] = b;
 
@@ -85,10 +93,8 @@ zbior_ary singleton(int a){
 }
 
 zbior_ary copy_set(zbior_ary X){
-    zbior_ary result;
+    zbior_ary result = create_set(X.number_of_diff_seq);
     result.number_of_diff_seq = X.number_of_diff_seq;
-    result.min_element = create_table(result.number_of_diff_seq);
-    result.max_element = create_table(result.number_of_diff_seq);
 
     for(int i = 0; i < result.number_of_diff_seq; i++){
         result.min_element[i] = X.min_element[i];
@@ -115,6 +121,9 @@ void reduce_memory(zbior_ary* X){
 //X - zbior, a - pierwszy element dodawanego ciągu, b - ostatni element dodawanego ciągu
 //uwaga, X musi mieć odpowiednio duzą tablice
 void push_back(zbior_ary* X, int a, int b){
+    assert(X->allocated_space > X->number_of_diff_seq);
+    //sprawdzam, czy na pewno mogę dodać elementy do X
+
     if(X->number_of_diff_seq == 0){
         X->min_element[0] = a;
         X->max_element[0] = b;
@@ -153,9 +162,7 @@ zbior_ary suma(zbior_ary A, zbior_ary B){
     int n = A.number_of_diff_seq;
     int m = B.number_of_diff_seq;
 
-    zbior_ary result;
-    result.min_element = create_table(n + m);
-    result.max_element = create_table(n + m);
+    zbior_ary result = create_set(n + m);
 
     int index_a = 0;
     int index_b = 0;
@@ -190,6 +197,9 @@ zbior_ary suma(zbior_ary A, zbior_ary B){
 
 //funkcja usuwa ciąg (a, b) z końca zbioru ciągow X
 void pop_back(zbior_ary* X, int a, int b){
+    assert(X->allocated_space > X->number_of_diff_seq);
+    //sprawdzam, czy na pewno mogę dodać elementy do X
+
     if(X->number_of_diff_seq == 0){
         //X jest puste, nie ma od czego odjąć
         return;
@@ -223,12 +233,10 @@ zbior_ary roznica(zbior_ary A, zbior_ary B){
     int indexA = 0;
     int indexB = 0;
 
-    zbior_ary result;
+    zbior_ary result = create_set(n + m);
     //kazdy element zbioru B moze dodać maksymalnie 1 element do zbioru A
     //(poprzez rozbicie elementu z A na dwa)
     //stąd maksymalna pamięć (n + m)
-    result.min_element = create_table(n + m);
-    result.max_element = create_table(n + m);
     result.number_of_diff_seq = 0;
 
     //będę dodawał elementy z A, a potem "wykrawał" z ncih elementy z B

@@ -13,6 +13,7 @@ typedef struct zbior_ary {
   //i-ty element tablic t ciąg arytmetyczny od min_element[i] do max_element[i], o roznicy Q
 
   int number_of_diff_seq; //liczba roznych ciagow arytmetycznych w zbiorze
+  int allocated_space;
 } zbior_ary;
 
 /* Najlepiej nie modyfikowac nic ponizej. */
