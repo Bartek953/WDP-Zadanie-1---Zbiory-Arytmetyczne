@@ -8,8 +8,8 @@ typedef struct zbior_ary {
   //to wystarczy pamietac najmniejszy i najwiekszy element kazdego z nich
   //dodatkowo mozemy chciec utrzymywac posortowanie tablic wedlug modulo q, a potem po pierwszym elemencie
 
-  int* min_element; //tablica najmniejszych elementow
-  int* max_element; //tablica najwiekszych elementow
+  long long* min_element; //tablica najmniejszych elementow
+  long long* max_element; //tablica najwiekszych elementow
   //i-ty element tablic t ciąg arytmetyczny od min_element[i] do max_element[i], o roznicy Q
 
   int number_of_diff_seq; //liczba roznych ciagow arytmetycznych w zbiorze

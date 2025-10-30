@@ -27,9 +27,13 @@ int main(void){
                     printf("Wrong test: Q changed!!!\n");
                     return 0;
                 }
-                Q = q;
-
-                tab[(int)lvalue] = ciag_arytmetyczny(a, q, b);
+                if(Q != -1 && a == b){
+                    tab[(int)lvalue] = singleton(a);
+                }
+                else {
+                    Q = q;
+                    tab[(int)lvalue] = ciag_arytmetyczny(a, q, b);
+                }
                 break;
             }
             case '+': {
@@ -45,8 +49,8 @@ int main(void){
                     break;
                 }
                 for(int seq_index = 0; seq_index < tab[(int)lvalue].number_of_diff_seq; seq_index++){
-                    int el = tab[(int)lvalue].min_element[seq_index];
-                    while(el <= tab[(int)lvalue].max_element[seq_index]){
+                    int el = (int)tab[(int)lvalue].min_element[seq_index];
+                    while(el <= (int)tab[(int)lvalue].max_element[seq_index]){
                         printf("%d ", el);
                         el += Q;
                     }

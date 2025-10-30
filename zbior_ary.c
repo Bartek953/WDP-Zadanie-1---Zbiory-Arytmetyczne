@@ -11,7 +11,7 @@
 #include <stdlib.h>
 #include <assert.h>
 
-int max(int x, int y){
+long long max(long long x, long long y){
     if(x >= y){
         return x;
     }
@@ -20,13 +20,13 @@ int max(int x, int y){
     }
 }
 
-int* create_table(int size){
+long long* create_table(int size){
     if(size <= 0){ //na wypadek gdyby size == 0
         size = 1;
     }
-    int* result = (int*)malloc((size_t)size * sizeof(int));
+    long long* result = (long long*)malloc((size_t)size * sizeof(long long));
     if(!result){
-        printf("[MALLOC EREOR] couldn't allocate table\n");
+        printf("[MALLOC ERROR] couldn't allocate table\n");
         exit(EXIT_FAILURE);
     }
     return result;
@@ -41,18 +41,18 @@ zbior_ary create_set(int size){
     return result;
 }
 
-static int Q; //roznica ciągu
-static bool is_q_set = 0;
+static long long Q; //roznica ciągu
+static bool is_q_set = false;
 
 //funkcja do testow
-void set_new_q(int q){
+void set_new_q(long long q){
     Q = q;
-    is_q_set = 1;
+    is_q_set = true;
 }
 
 //zwraca reszte z dzielenia x % Q in [0, Q - 1];
-int mod(int x){
-    int r = x % Q;
+long long mod(long long x){
+    long long r = x % Q;
     if(r < 0){
         return r + Q;
     }
@@ -60,11 +60,11 @@ int mod(int x){
         return r;
     }
 }
-bool are_congruent_mod_q(int x, int y){
+bool are_congruent_mod_q(long long x, long long y){
     return mod(x) == mod(y);
 }
 //funkcja wprowadza przyjęty porządek
-bool less_in_order(int x, int y){ //czy x mniejszy od y według przyjętego porządku
+bool less_in_order(long long x, long long y){ //czy x mniejszy od y według przyjętego porządku
     if(mod(x) == mod(y)){
         return x < y;
     }
@@ -89,7 +89,9 @@ zbior_ary ciag_arytmetyczny(int a, int q, int b){
 
 zbior_ary singleton(int a){
     //singleton to ciąg arytmetyczny o jednym elemencie
-    return ciag_arytmetyczny(a, -1, a);
+    assert(is_q_set);
+    //Q powinniśmy poznać w pierwszym wywołaniu, więc tutaj jest juz znane
+    return ciag_arytmetyczny(a, (int)Q, a);
 }
 
 zbior_ary copy_set(zbior_ary X){
@@ -120,7 +122,7 @@ void reduce_memory(zbior_ary* X){
 //funkcja dodaje element na koniec tablicy ciągow i łączy z przedostatnim ciągu
 //X - zbior, a - pierwszy element dodawanego ciągu, b - ostatni element dodawanego ciągu
 //uwaga, X musi mieć odpowiednio duzą tablice
-void push_back(zbior_ary* X, int a, int b){
+void push_back(zbior_ary* X, long long a, long long b){
     assert(X->allocated_space > X->number_of_diff_seq);
     //sprawdzam, czy na pewno mogę dodać elementy do X
 
@@ -132,7 +134,7 @@ void push_back(zbior_ary* X, int a, int b){
     }
 
     int n = X->number_of_diff_seq;
-    int X_last_max = X->max_element[n - 1];
+    long long X_last_max = X->max_element[n - 1];
     //wiemy, ze jesli przystaja mod Q, to X.min_element[n - 1] <= a, bo elementy sa posortowane (według porządku)
     if(are_congruent_mod_q(X_last_max, a) && (a - X_last_max) <= Q){
         //łączymy ciągi
@@ -196,7 +198,7 @@ zbior_ary suma(zbior_ary A, zbior_ary B){
 }
 
 //funkcja usuwa ciąg (a, b) z końca zbioru ciągow X
-void pop_back(zbior_ary* X, int a, int b){
+void pop_back(zbior_ary* X, long long a, long long b){
     assert(X->allocated_space > X->number_of_diff_seq);
     //sprawdzam, czy na pewno mogę dodać elementy do X
 
@@ -205,8 +207,8 @@ void pop_back(zbior_ary* X, int a, int b){
         return;
     }
     int n = X->number_of_diff_seq;
-    int X_last_min = X->min_element[n - 1];
-    int X_last_max = X->max_element[n - 1];
+    long long X_last_min = X->min_element[n - 1];
+    long long X_last_max = X->max_element[n - 1];
 
     if(are_congruent_mod_q(X_last_min, a) == false || b < X_last_min || X_last_max < a){
         //ciągi są rozłączne, nie ma co odejmować
@@ -254,10 +256,9 @@ zbior_ary roznica(zbior_ary A, zbior_ary B){
         }
         
         int res_size = result.number_of_diff_seq;
-        int B_curr_max = B.max_element[indexB];
-        int res_curr_min = result.min_element[result.number_of_diff_seq - 1];
 
-        while(indexB < m && res_size >= 1 && less_in_order(B_curr_max, res_curr_min)){
+        while(indexB < m && res_size >= 1 
+            && less_in_order(B.max_element[indexB], result.min_element[res_size - 1])){
             //gdy element B jest za mały by coś z result, to biore następny
             indexB++;
             if(indexB < m){
@@ -265,8 +266,6 @@ zbior_ary roznica(zbior_ary A, zbior_ary B){
                 pop_back(&result, B.min_element[indexB], B.max_element[indexB]);
             }
             res_size = result.number_of_diff_seq;
-            B_curr_max = B.max_element[indexB];
-            res_curr_min = result.min_element[result.number_of_diff_seq - 1];
         }
 
         if(indexA == n){
@@ -292,12 +291,9 @@ zbior_ary iloczyn(zbior_ary A, zbior_ary B) {
 
 unsigned moc(zbior_ary A){
     long long result = 0;
-    long long maxi, mini, Qll = Q;
 
     for(int i = 0; i < A.number_of_diff_seq; i++){
-        maxi = A.max_element[i];
-        mini = A.min_element[i];
-        result += (maxi - mini) / Qll + 1ll;
+        result += (A.max_element[i] - A.min_element[i]) / Q + 1ll;
     }
     return (unsigned int)result;
 }
@@ -316,10 +312,11 @@ bool nalezy(zbior_ary A, int b){
     int l = -1;
     int r = A.number_of_diff_seq;
     int mid;
+    long long bll = b;
 
     while(l + 1 < r){
         mid = (l + r) / 2;
-        if(less_in_order(b, A.min_element[mid])){ //czy b jest mniejsze od ciagu mid
+        if(less_in_order(bll, A.min_element[mid])){ //czy b jest mniejsze od ciagu mid
             r = mid;
         }
         else {
@@ -331,9 +328,9 @@ bool nalezy(zbior_ary A, int b){
         return false;
     }
 
-    int low_el = A.min_element[l];
-    int high_el = A.max_element[l];
-    if(are_congruent_mod_q(b, low_el) && low_el <= b && b <= high_el){
+    long long low_el = A.min_element[l];
+    long long high_el = A.max_element[l];
+    if(are_congruent_mod_q(bll, low_el) && low_el <= bll && bll <= high_el){
         return true;
     }
     else {
