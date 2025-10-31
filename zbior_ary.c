@@ -311,11 +311,10 @@ bool nalezy(zbior_ary A, int b){
     }
     int l = -1;
     int r = A.number_of_diff_seq;
-    int mid;
     long long bll = b;
 
     while(l + 1 < r){
-        mid = (l + r) / 2;
+        int mid = (l + r) / 2;
         if(less_in_order(bll, A.min_element[mid])){ //czy b jest mniejsze od ciagu mid
             r = mid;
         }
